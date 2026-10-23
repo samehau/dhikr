@@ -6,8 +6,22 @@
     <title>Dhikr</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+.skeleton {
+    background: #e2e8f0;
+    background-image: linear-gradient(to right, #e2e8f0 0%, #f8fafc 20%, #e2e8f0 40%, #e2e8f0 100%);
+    background-repeat: no-repeat;
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear forwards;
+}
+.fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap');
         body { font-family: 'Anek Malayalam', sans-serif; }
+        
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -141,61 +155,90 @@
     </script>
 
     <!-- Data Fetch Script -->
-    <script>
-        // REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec";
+  <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec"; // REPLACE THIS
 
-       // NEW FUNCTION - Bypasses Google Drive embed restrictions
-function getDriveDirectLink(url) {
-    if (!url) return '';
-    const match = url.match(/\/d\/(.+?)\//);
-    if (match) {
-        // Uses the thumbnail endpoint which is allowed to display on external websites
-        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+    function getDriveDirectLink(url) {
+        if (!url) return '';
+        const match = url.match(/\/d\/(.+?)\//);
+        return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000` : url;
     }
-    return url;
-}
 
-        async function loadWebsiteData() {
-            try {
-                const response = await fetch(APPS_SCRIPT_URL);
-                const data = await response.json();
+    // 1. Show animated skeletons while waiting
+    function showSkeletons(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+            container.innerHTML += `
+            <div class="flex flex-col">
+                <div class="skeleton aspect-square rounded-lg mb-3 shadow-sm w-full"></div>
+                <div class="skeleton h-4 w-3/4 mx-auto rounded"></div>
+            </div>`;
+        }
+    }
 
-                if (data.status === "success") {
-                    if (document.getElementById('index-nasehai-grid')) {
-                        renderIndexGrid('index-nasehai-grid', data.nasehai.filter(i => i["Show on Index"] === "Yes"));
-                        renderIndexGrid('index-event-grid', data.event.filter(i => i["Show on Index"] === "Yes"));
-                        renderIndexGrid('index-darus-grid', data.darus.filter(i => i["Show on Index"] === "Yes"));
-                    }
+    // 2. Fetch with Caching (Stale-While-Revalidate)
+    async function loadWebsiteData() {
+        const grids = ['index-nasehai-grid', 'index-event-grid', 'index-darus-grid'];
+        
+        // Check browser cache first for instant loading
+        const cachedData = sessionStorage.getItem('zikoro_data');
+        if (cachedData) {
+            renderAllGrids(JSON.parse(cachedData));
+        } else {
+            grids.forEach(id => showSkeletons(id)); // Show skeletons only if no cache exists
+        }
+
+        try {
+            // Fetch fresh data in the background
+            const response = await fetch(APPS_SCRIPT_URL);
+            const data = await response.json();
+
+            if (data.status === "success") {
+                // Check if data changed to avoid unnecessary re-rendering flashing
+                if (JSON.stringify(data) !== cachedData) {
+                    sessionStorage.setItem('zikoro_data', JSON.stringify(data));
+                    renderAllGrids(data);
                 }
-            } catch (error) {
-                console.error("Error fetching data:", error);
             }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    function renderAllGrids(data) {
+        if (document.getElementById('index-nasehai-grid')) {
+            renderIndexGrid('index-nasehai-grid', data.nasehai.filter(i => i["Show on Index"] === "Yes"));
+            renderIndexGrid('index-event-grid', data.event.filter(i => i["Show on Index"] === "Yes"));
+            renderIndexGrid('index-darus-grid', data.darus.filter(i => i["Show on Index"] === "Yes"));
+        }
+    }
+
+    // 3. Render items with fade-in and lazy loading
+    function renderIndexGrid(containerId, items) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (items.length === 0) {
+            container.innerHTML = '<p class="text-gray-500 col-span-4 text-center">މިވަގުތު އެއްވެސް މަޢުލޫމާތެއް ނެތް</p>';
+            return;
         }
 
-        function renderIndexGrid(containerId, items) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            container.innerHTML = '';
-            
-            if (items.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 col-span-4 text-center">މިވަގުތު އެއްވެސް މަޢުލޫމާތެއް ނެތް (No items to display)</p>';
-                return;
-            }
+        items.slice(0, 4).forEach(item => {
+            const imgUrl = getDriveDirectLink(item["Image URL"] || item["File URL"]);
+            container.innerHTML += `
+            <div class="flex flex-col fade-in">
+                <div class="bg-gray-200 aspect-square rounded-lg flex items-center justify-center mb-3 overflow-hidden shadow-sm relative">
+                    ${imgUrl ? `<img src="${imgUrl}" loading="lazy" class="absolute w-full h-full object-cover transition-transform duration-500 hover:scale-105">` : '<span class="text-gray-400 text-xl font-bold">No Media</span>'}
+                </div>
+                <p class="text-[#0f764a] font-bold text-center text-sm">${item.Title}</p>
+            </div>`;
+        });
+    }
 
-            items.slice(0, 4).forEach(item => {
-                const imgUrl = getDriveDirectLink(item["Image URL"] || item["File URL"]);
-                container.innerHTML += `
-                <div class="flex flex-col">
-                    <div class="bg-gray-300 aspect-square rounded-lg flex items-center justify-center mb-3 overflow-hidden shadow-sm">
-                        ${imgUrl ? `<img src="${imgUrl}" class="w-full h-full object-cover">` : '<span class="text-gray-400 text-xl font-bold">No Media</span>'}
-                    </div>
-                    <p class="text-[#0f764a] font-bold text-center text-sm">${item.Title}</p>
-                </div>`;
-            });
-        }
-
-        window.addEventListener('DOMContentLoaded', loadWebsiteData);
-    </script>
+    window.addEventListener('DOMContentLoaded', loadWebsiteData);
+</script>
 </body>
 </html>
