@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="dv" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Website | އެން.ޖީ.އޯ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600&display=swap'); /* Replace with your preferred Dhivehi font if needed */
+        body { font-family: 'Anek Malayalam', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="bg-emerald-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">އެން.ޖީ.އޯ ވެބްސައިޓް</h1>
+            <ul class="flex space-x-6 space-x-reverse text-lg">
+                <li><a href="#home" class="hover:text-emerald-200">މައި ޞަފްޙާ (Home)</a></li>
+                <li><a href="#about" class="hover:text-emerald-200">އަހަރެމެންގެ ވާހަކަ (About)</a></li>
+                <li><a href="#members" class="hover:text-emerald-200">މެމްބަރުން (Members)</a></li>
+                <li><a href="#media" class="hover:text-emerald-200">މީޑިއާ (Media)</a></li>
+                <li><a href="#admin" class="hover:text-emerald-200 font-bold">އެޑްމިން (Admin)</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Admin Panel Login Section (Hidden by default, shown when #admin clicked) -->
+    <div id="admin-section" class="container mx-auto mt-10 p-6 bg-white rounded shadow max-w-md hidden">
+        <h2 class="text-xl font-bold mb-4 text-emerald-700">އެޑްމިން ލޮގިން</h2>
+        <p class="text-sm text-gray-500 mb-4">ޔޫޒަރނޭމް އަދި ޕާސްވޯޑް ޖެއްސެވުމުން، ތިޔަބޭފުޅާގެ އީމެއިލް އަށް ލިންކެއް ފޮނުވޭނެއެވެ.</p>
+        
+        <input type="text" id="username" placeholder="ޔޫޒަރނޭމް" class="w-full p-2 border rounded mb-3">
+        <input type="password" id="password" placeholder="ޕާސްވޯޑް" class="w-full p-2 border rounded mb-4">
+        
+        <button onclick="requestMagicLink()" class="w-full bg-emerald-600 text-white p-2 rounded hover:bg-emerald-700 transition">
+            ލިންކް ފޮނުވާ (Send Link)
+        </button>
+        <p id="admin-message" class="text-center mt-3 text-sm font-semibold"></p>
+    </div>
+
+    <script>
+        // Replace with your Google Apps Script Web App URL
+        const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL"; 
+
+        async function requestMagicLink() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+            const msgEl = document.getElementById("admin-message");
+
+            msgEl.innerText = "ފޮނުވަނީ... (Sending...)";
+            msgEl.className = "text-center mt-3 text-sm font-semibold text-blue-600";
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "request_login", username: user, password: pass })
+                });
+                const result = await response.json();
+
+                if(result.status === "success") {
+                    msgEl.innerText = "✅ އީމެއިލް އަށް ލިންކް ފޮނުވިއްޖެ!";
+                    msgEl.className = "text-center mt-3 text-sm font-semibold text-emerald-600";
+                } else {
+                    msgEl.innerText = "❌ ޔޫޒަރނޭމް ނުވަތަ ޕާސްވޯޑް ގޯސް.";
+                    msgEl.className = "text-center mt-3 text-sm font-semibold text-red-600";
+                }
+            } catch(e) {
+                msgEl.innerText = "Error connecting to server.";
+            }
+        }
+        
+        // Simple router to show/hide admin panel
+        window.addEventListener('hashchange', () => {
+            document.getElementById('admin-section').style.display = location.hash === '#admin' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
