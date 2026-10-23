@@ -55,10 +55,17 @@
             try {
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8",
+                    },
                     body: JSON.stringify({ action: "request_login", username: user, password: pass })
                 });
+                
+                // Google Apps Script wraps responses in redirects. Check if response is ok.
+                if (!response.ok) throw new Error("Network response was not ok");
+                
                 const result = await response.json();
-
+            
                 if(result.status === "success") {
                     msgEl.innerText = "✅ އީމެއިލް އަށް ލިންކް ފޮނުވިއްޖެ!";
                     msgEl.className = "text-center mt-3 text-sm font-semibold text-emerald-600";
@@ -67,9 +74,9 @@
                     msgEl.className = "text-center mt-3 text-sm font-semibold text-red-600";
                 }
             } catch(e) {
+                console.error(e); // Check the browser console for the exact error
                 msgEl.innerText = "Error connecting to server.";
             }
-        }
         
         // Simple router to show/hide admin panel
         window.addEventListener('hashchange', () => {
