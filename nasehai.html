@@ -6,6 +6,19 @@
     <title>Dhikr | ނަޞޭޙަތް</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+.skeleton {
+    background: #e2e8f0;
+    background-image: linear-gradient(to right, #e2e8f0 0%, #f8fafc 20%, #e2e8f0 40%, #e2e8f0 100%);
+    background-repeat: no-repeat;
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear forwards;
+}
+.fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap');
         body { font-family: 'Anek Malayalam', sans-serif; }
     </style>
@@ -108,10 +121,68 @@
         </div>
     </footer>
 
-    <script>
+<!--    <script>
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
-        btn.addEventListener('click', () => { menu.classList.toggle('hidden'); menu.classList.toggle('flex'); });
-    </script>
+        btn.addEventListener('click', () => { menu.classList.toggle('hidden'); menu.classList.toggle('flex'); }); -->
+        <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec";
+
+    function getDriveDirectLink(url) {
+        if (!url) return '';
+        const match = url.match(/\/d\/(.+?)\//);
+        return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000` : url;
+    }
+
+    function showSkeletons() {
+        const container = document.getElementById('nasehai-page-grid');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < 6; i++) {
+            container.innerHTML += `
+            <div class="bg-gray-100 rounded-xl p-6 shadow-sm flex flex-col items-center">
+                <div class="skeleton aspect-video w-full rounded-lg mb-4"></div>
+                <div class="skeleton h-6 w-1/2 rounded mb-2"></div>
+                <div class="skeleton h-4 w-3/4 rounded"></div>
+            </div>`;
+        }
+    }
+
+    async function loadWebsiteData() {
+        const cachedData = sessionStorage.getItem('zikoro_data');
+        if (cachedData) renderPage(JSON.parse(cachedData).nasehai);
+        else showSkeletons();
+
+        try {
+            const response = await fetch(APPS_SCRIPT_URL);
+            const data = await response.json();
+            if (data.status === "success" && JSON.stringify(data) !== cachedData) {
+                sessionStorage.setItem('zikoro_data', JSON.stringify(data));
+                renderPage(data.nasehai);
+            }
+        } catch (error) { console.error(error); }
+    }
+
+    function renderPage(items) {
+        const container = document.getElementById('nasehai-page-grid');
+        if (!container) return;
+        container.innerHTML = '';
+        if (items.length === 0) return container.innerHTML = '<p class="text-gray-500 col-span-3 text-center">މިވަގުތު އެއްވެސް މަޢުލޫމާތެއް ނެތް</p>';
+
+        items.forEach(item => {
+            const imgUrl = getDriveDirectLink(item["Image URL"]);
+            container.innerHTML += `
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center fade-in">
+                <div class="w-full bg-gray-200 aspect-video rounded-lg flex items-center justify-center mb-4 overflow-hidden relative">
+                    ${imgUrl ? `<img src="${imgUrl}" loading="lazy" class="absolute w-full h-full object-cover transition-transform duration-500 hover:scale-105">` : '<span class="text-gray-400 text-xl font-bold">No Photo</span>'}
+                </div>
+                <h3 class="text-xl font-bold text-[#0f764a] mb-2">${item.Title}</h3>
+                <p class="text-gray-600 font-semibold text-sm">${item.Detail}</p>
+            </div>`;
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', loadWebsiteData);
+</script>
 </body>
 </html>
