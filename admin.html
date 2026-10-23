@@ -15,14 +15,12 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <!-- Admin Navigation Bar (Blue Theme) -->
     <nav class="bg-blue-700 text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold">އެޑްމިން ޕެނަލް</h1>
             <div class="flex items-center space-x-3 space-x-reverse">
                 <a href="index.html" target="_blank" class="bg-blue-800 hover:bg-blue-900 px-4 py-2 rounded text-sm font-bold transition flex items-center">
                     ވެބްސައިޓް ބައްލަވާ
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                 </a>
                 <button id="logout-btn" onclick="logoutAdmin()" class="hidden bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm font-bold transition">
                     ލޮގްއައުޓް
@@ -36,8 +34,8 @@
         <!-- Login Form -->
         <div id="login-view" class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8 border-t-4 border-blue-600 mt-10">
             <h2 class="text-2xl font-bold mb-6 text-blue-800 text-center">ލޮގިން</h2>
-            <input type="text" id="username" placeholder="ޔޫޒަރނޭމް" class="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-            <input type="password" id="password" placeholder="ޕާސްވޯޑް" class="w-full p-3 border border-gray-300 rounded mb-6 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+            <input type="text" id="username" placeholder="ޔޫޒަރނޭމް" class="w-full p-3 border border-gray-300 rounded mb-4">
+            <input type="password" id="password" placeholder="ޕާސްވޯޑް" class="w-full p-3 border border-gray-300 rounded mb-6">
             <button onclick="loginAdmin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded shadow transition">ލޮގިން</button>
             <p id="admin-message" class="text-center mt-4 text-sm font-semibold"></p>
         </div>
@@ -45,48 +43,61 @@
         <!-- Dashboard -->
         <div id="dashboard-view" class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden hidden">
             
-            <!-- Dashboard Tabs -->
             <div class="flex border-b border-gray-200 bg-gray-50 flex-col sm:flex-row">
-                <button onclick="switchTab('nasehai-tab')" id="btn-nasehai-tab" class="admin-tab-btn flex-1 py-4 text-center font-bold text-blue-700 border-b-4 border-blue-700 bg-white transition hover:bg-blue-50">ނަޞޭޙަތް އަޕްޑޭޓް</button>
-                <button onclick="switchTab('event-tab')" id="btn-event-tab" class="admin-tab-btn flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent transition hover:bg-gray-100 hover:text-blue-600">އިވެންޓް އަޕްޑޭޓް</button>
-                <button onclick="switchTab('darus-tab')" id="btn-darus-tab" class="admin-tab-btn flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent transition hover:bg-gray-100 hover:text-blue-600">ދަރުސް އަޕްޑޭޓް</button>
+                <button onclick="switchTab('nasehai-tab')" id="btn-nasehai-tab" class="admin-tab-btn flex-1 py-4 text-center font-bold text-blue-700 border-b-4 border-blue-700 bg-white transition">ނަޞޭޙަތް</button>
+                <button onclick="switchTab('event-tab')" id="btn-event-tab" class="admin-tab-btn flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent transition">އިވެންޓް</button>
+                <button onclick="switchTab('darus-tab')" id="btn-darus-tab" class="admin-tab-btn flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent transition">ދަރުސް</button>
             </div>
 
             <div class="p-6 md:p-8">
-                <!-- Naseyhai Tab Content -->
+                <!-- Naseyhai Tab -->
                 <div id="nasehai-tab" class="admin-tab-content admin-tab-active">
                     <h3 class="text-xl font-bold text-blue-800 mb-4">ނަޞޭޙަތް އަޕްޑޭޓް ކުރައްވާ</h3>
                     <div class="space-y-4">
-                        <input type="text" placeholder="ނަޞޭޙަތުގެ ސުރުޚީ..." class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50">
-                        <textarea rows="4" placeholder="ތަފްސީލް..." class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50"></textarea>
-                        <input type="file" accept="image/*" class="w-full p-2 border rounded bg-white">
-                        <button class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-8 rounded shadow hover:bg-blue-700">ސޭވް ކުރައްވާ</button>
+                        <input type="text" id="nasehai-title" placeholder="ސުރުޚީ..." class="w-full p-3 border rounded bg-blue-50/50">
+                        <textarea id="nasehai-detail" rows="4" placeholder="ތަފްސީލް..." class="w-full p-3 border rounded bg-blue-50/50"></textarea>
+                        <input type="file" id="nasehai-file" accept="image/*" class="w-full p-2 border rounded bg-white">
+                        <label class="flex items-center space-x-2 space-x-reverse font-semibold text-blue-800 bg-blue-100 p-3 rounded">
+                            <input type="checkbox" id="nasehai-index" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                            <span>ފުރަތަމަ ޞަފްޙާގައި ދައްކާ (Show on Index Page)</span>
+                        </label>
+                        <button onclick="submitData('upload_nasehai')" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-8 rounded shadow hover:bg-blue-700">ސޭވް ކުރައްވާ</button>
+                        <p id="msg-upload_nasehai" class="text-sm font-bold text-emerald-600 mt-2"></p>
                     </div>
                 </div>
 
-                <!-- Event Tab Content -->
+                <!-- Event Tab -->
                 <div id="event-tab" class="admin-tab-content">
                     <h3 class="text-xl font-bold text-blue-800 mb-4">އިވެންޓް އަޕްޑޭޓް ކުރައްވާ</h3>
                     <div class="space-y-4">
-                        <input type="text" placeholder="އިވެންޓްގެ ނަން..." class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50">
+                        <input type="text" id="event-title" placeholder="އިވެންޓްގެ ނަން..." class="w-full p-3 border rounded bg-blue-50/50">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="date" class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50 text-gray-500">
-                            <input type="time" class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50 text-gray-500">
+                            <input type="date" id="event-date" class="w-full p-3 border rounded bg-blue-50/50 text-gray-500">
+                            <input type="time" id="event-time" class="w-full p-3 border rounded bg-blue-50/50 text-gray-500">
                         </div>
-                        <textarea rows="3" placeholder="އިވެންޓްގެ ތަފްސީލް..." class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50"></textarea>
-                        <input type="file" accept="image/*" class="w-full p-2 border rounded bg-white">
-                        <button class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-8 rounded shadow hover:bg-blue-700">ސޭވް ކުރައްވާ</button>
+                        <textarea id="event-detail" rows="3" placeholder="އިވެންޓްގެ ތަފްސީލް..." class="w-full p-3 border rounded bg-blue-50/50"></textarea>
+                        <input type="file" id="event-file" accept="image/*" class="w-full p-2 border rounded bg-white">
+                        <label class="flex items-center space-x-2 space-x-reverse font-semibold text-blue-800 bg-blue-100 p-3 rounded">
+                            <input type="checkbox" id="event-index" class="w-5 h-5">
+                            <span>ފުރަތަމަ ޞަފްޙާގައި ދައްކާ (Show on Index Page)</span>
+                        </label>
+                        <button onclick="submitData('upload_event')" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-8 rounded shadow hover:bg-blue-700">ސޭވް ކުރައްވާ</button>
+                        <p id="msg-upload_event" class="text-sm font-bold text-emerald-600 mt-2"></p>
                     </div>
                 </div>
 
-                <!-- Darus Tab Content -->
+                <!-- Darus Tab -->
                 <div id="darus-tab" class="admin-tab-content">
                     <h3 class="text-xl font-bold text-blue-800 mb-4">ދަރުސް އަޕްޑޭޓް ކުރައްވާ (Audio/Video)</h3>
                     <div class="space-y-4">
-                        <input type="text" id="audioTitle" placeholder="ދަރުސްގެ ނަން..." class="w-full p-3 border rounded focus:outline-none focus:border-blue-400 bg-blue-50/50">
-                        <input type="file" id="audioFile" accept="audio/*,video/*" class="w-full p-2 border rounded bg-white">
-                        <button onclick="uploadAudio()" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-8 rounded shadow hover:bg-blue-700">އަޕްލޯޑް ކުރައްވާ</button>
-                        <p id="upload-message" class="text-sm font-semibold mt-2 text-blue-600"></p>
+                        <input type="text" id="darus-title" placeholder="ދަރުސްގެ ނަން..." class="w-full p-3 border rounded bg-blue-50/50">
+                        <input type="file" id="darus-file" accept="audio/*,video/*" class="w-full p-2 border rounded bg-white">
+                        <label class="flex items-center space-x-2 space-x-reverse font-semibold text-blue-800 bg-blue-100 p-3 rounded">
+                            <input type="checkbox" id="darus-index" class="w-5 h-5">
+                            <span>ފުރަތަމަ ޞަފްޙާގައި ދައްކާ (Show on Index Page)</span>
+                        </label>
+                        <button onclick="submitData('upload_darus')" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-8 rounded shadow hover:bg-blue-700">އަޕްލޯޑް ކުރައްވާ</button>
+                        <p id="msg-upload_darus" class="text-sm font-bold text-emerald-600 mt-2"></p>
                     </div>
                 </div>
             </div>
@@ -95,9 +106,8 @@
     </main>
 
     <script>
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec";
+        const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL"; // REPLACE THIS!
 
-        // Check authentication status on load
         window.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem("admin_token");
             if (token) {
@@ -107,20 +117,13 @@
             }
         });
 
-        // Tab Switching Logic
         function switchTab(tabId) {
-            // Hide all contents
             document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('admin-tab-active'));
-            // Reset all buttons
             document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                 btn.classList.remove('text-blue-700', 'border-blue-700', 'bg-white');
                 btn.classList.add('text-gray-500', 'border-transparent');
             });
-
-            // Show selected content
             document.getElementById(tabId).classList.add('admin-tab-active');
-            
-            // Highlight selected button
             const activeBtn = document.getElementById('btn-' + tabId);
             activeBtn.classList.remove('text-gray-500', 'border-transparent');
             activeBtn.classList.add('text-blue-700', 'border-blue-700', 'bg-white');
@@ -130,15 +133,10 @@
             const user = document.getElementById("username").value;
             const pass = document.getElementById("password").value;
             const msgEl = document.getElementById("admin-message");
+            if(!user || !pass) return msgEl.innerText = "ޔޫޒަރނޭމް އަދި ޕާސްވޯޑް ޖައްސަވާ.";
             
-            if(!user || !pass) {
-                msgEl.innerText = "ޔޫޒަރނޭމް އަދި ޕާސްވޯޑް ޖައްސަވާ.";
-                msgEl.className = "text-center mt-4 text-sm font-semibold text-red-500";
-                return;
-            }
-            
-            msgEl.innerText = "ޗެކްކުރަނީ... (Checking...)";
-            msgEl.className = "text-center mt-4 text-sm font-semibold text-blue-500";
+            msgEl.innerText = "ޗެކްކުރަނީ...";
+            msgEl.className = "text-center mt-4 text-sm font-bold text-blue-500";
 
             try {
                 const response = await fetch(APPS_SCRIPT_URL, {
@@ -146,20 +144,17 @@
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ action: "request_login", username: user, password: pass })
                 });
-                
                 const result = await response.json();
                 if(result.status === "success") {
                     localStorage.setItem("admin_token", result.token);
-                    document.getElementById('login-view').classList.add('hidden');
-                    document.getElementById('dashboard-view').classList.remove('hidden');
-                    document.getElementById('logout-btn').classList.remove('hidden');
+                    location.reload();
                 } else {
-                    msgEl.innerText = "❌ ޔޫޒަރނޭމް ނުވަތަ ޕާސްވޯޑް ގޯސް.";
-                    msgEl.className = "text-center mt-4 text-sm font-semibold text-red-500";
+                    msgEl.innerText = "❌ ގޯސް.";
+                    msgEl.className = "text-center mt-4 text-sm font-bold text-red-500";
                 }
             } catch(e) {
                 msgEl.innerText = "❌ ކަނެކްޝަން މައްސަލައެއް.";
-                msgEl.className = "text-center mt-4 text-sm font-semibold text-red-500";
+                msgEl.className = "text-center mt-4 text-sm font-bold text-red-500";
             }
         }
 
@@ -168,13 +163,87 @@
             location.reload();
         }
 
-        function uploadAudio() {
-            const title = document.getElementById('audioTitle').value;
-            const fileInput = document.getElementById('audioFile');
-            const msgEl = document.getElementById('upload-message');
-            if(!title || fileInput.files.length === 0) return msgEl.innerText = "ސުރުޚީ އަދި ފައިލް ހިމަނުއްވާ.";
-            msgEl.innerText = "ތައްޔާރުކުރަނީ... (Base64 conversion coming next)";
-            msgEl.className = "text-sm font-semibold mt-2 text-blue-600";
+        // Helper function to convert file to Base64
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]); 
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Main upload function
+        async function submitData(actionType) {
+            const token = localStorage.getItem("admin_token");
+            const msgEl = document.getElementById("msg-" + actionType);
+            msgEl.innerText = "އަޕްލޯޑް ކުރެވެނީ... (Uploading, please wait)";
+            msgEl.className = "text-sm font-bold text-blue-600 mt-2";
+
+            // Build Payload dynamically based on the active tab
+            let payload = { action: actionType, token: token };
+            let fileInput;
+
+            if (actionType === "upload_nasehai") {
+                payload.title = document.getElementById('nasehai-title').value;
+                payload.detail = document.getElementById('nasehai-detail').value;
+                payload.showOnIndex = document.getElementById('nasehai-index').checked;
+                fileInput = document.getElementById('nasehai-file');
+            } 
+            else if (actionType === "upload_event") {
+                payload.title = document.getElementById('event-title').value;
+                payload.date = document.getElementById('event-date').value;
+                payload.time = document.getElementById('event-time').value;
+                payload.detail = document.getElementById('event-detail').value;
+                payload.showOnIndex = document.getElementById('event-index').checked;
+                fileInput = document.getElementById('event-file');
+            } 
+            else if (actionType === "upload_darus") {
+                payload.title = document.getElementById('darus-title').value;
+                payload.showOnIndex = document.getElementById('darus-index').checked;
+                fileInput = document.getElementById('darus-file');
+            }
+
+            // Validate Title
+            if (!payload.title) {
+                msgEl.innerText = "❌ ސުރުޚީ ހިމަނުއްވާ.";
+                msgEl.className = "text-sm font-bold text-red-500 mt-2";
+                return;
+            }
+
+            // Process File if selected
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                payload.filename = file.name;
+                payload.mimeType = file.type;
+                payload.fileBase64 = await getBase64(file);
+            }
+
+            // Send to Google Apps Script
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    msgEl.innerText = "✅ ކާމިޔާބު ކަމާއެކު ސޭވް ކުރެވިއްޖެ!";
+                    msgEl.className = "text-sm font-bold text-emerald-600 mt-2";
+                    // Clear inputs
+                    if(actionType === 'upload_nasehai') { document.getElementById('nasehai-title').value = ''; document.getElementById('nasehai-detail').value = ''; fileInput.value = ''; }
+                    if(actionType === 'upload_event') { document.getElementById('event-title').value = ''; document.getElementById('event-detail').value = ''; fileInput.value = ''; }
+                    if(actionType === 'upload_darus') { document.getElementById('darus-title').value = ''; fileInput.value = ''; }
+                } else {
+                    msgEl.innerText = "❌ " + result.message;
+                    msgEl.className = "text-sm font-bold text-red-500 mt-2";
+                }
+            } catch(e) {
+                msgEl.innerText = "❌ ސަރވަރ މައްސަލައެއް. އަލުން މަސައްކަތް ކުރައްވާ.";
+                msgEl.className = "text-sm font-bold text-red-500 mt-2";
+            }
         }
     </script>
 </body>
