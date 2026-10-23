@@ -3,46 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGO Website | އެން.ޖީ.އޯ</title>
+    <title>NGO Website | ޖަމްޢިއްޔާ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600&display=swap');
-        body { font-family: 'Anek Malayalam', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap');
+        body { font-family: 'Anek Malayalam', sans-serif; scroll-behavior: smooth; }
+        .section-container { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .active-section { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <!-- Navigation -->
-    <nav class="bg-emerald-600 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">އެން.ޖީ.އޯ ވެބްސައިޓް</h1>
-            <ul class="flex space-x-6 space-x-reverse text-lg">
-                <li><a href="#home" class="hover:text-emerald-200">މައި ޞަފްޙާ (Home)</a></li>
-                <li><a href="#about" class="hover:text-emerald-200">އަހަރެމެންގެ ވާހަކަ (About)</a></li>
-                <li><a href="#members" class="hover:text-emerald-200">މެމްބަރުން (Members)</a></li>
-                <li><a href="#media" class="hover:text-emerald-200">މީޑިއާ (Media)</a></li>
-                <li><a href="#admin" class="hover:text-emerald-200 font-bold">އެޑްމިން (Admin)</a></li>
+    <nav class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold mb-4 md:mb-0">އެން.ޖީ.އޯ ވެބްސައިޓް</h1>
+            <ul class="flex flex-wrap justify-center space-x-4 space-x-reverse text-lg">
+                <li><a href="#home" class="hover:text-emerald-200 transition">މައި ޞަފްޙާ</a></li>
+                <li><a href="#about" class="hover:text-emerald-200 transition">އަހަރެމެންގެ ވާހަކަ</a></li>
+                <li><a href="#members" class="hover:text-emerald-200 transition">މެމްބަރުން</a></li>
+                <li><a href="#media" class="hover:text-emerald-200 transition">މީޑިއާ</a></li>
+                <li><a href="#admin" class="hover:text-emerald-200 font-bold bg-emerald-800 px-3 py-1 rounded transition">އެޑްމިން</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Admin Panel Login Section -->
-    <div id="admin-section" class="container mx-auto mt-10 p-6 bg-white rounded shadow max-w-md hidden">
-        <h2 class="text-xl font-bold mb-4 text-emerald-700">އެޑްމިން ލޮގިން</h2>
-        <p class="text-sm text-gray-500 mb-4">ޔޫޒަރނޭމް އަދި ޕާސްވޯޑް ޖައްސަވާ.</p>
-        
-        <input type="text" id="username" placeholder="ޔޫޒަރނޭމް" class="w-full p-2 border rounded mb-3">
-        <input type="password" id="password" placeholder="ޕާސްވޯޑް" class="w-full p-2 border rounded mb-4">
-        
-        <button onclick="loginAdmin()" class="w-full bg-emerald-600 text-white p-2 rounded hover:bg-emerald-700 transition">
-            ލޮގިން (Login)
-        </button>
-        <p id="admin-message" class="text-center mt-3 text-sm font-semibold"></p>
-    </div>
+    <!-- Main Content Area -->
+    <main class="container mx-auto mt-8 px-4 pb-12">
+
+        <!-- HOME SECTION -->
+        <section id="home" class="section-container active-section">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row">
+                <div class="p-8 md:w-1/2 flex flex-col justify-center">
+                    <h2 class="text-4xl font-bold text-emerald-800 mb-4">ޖަމްޢިއްޔާގެ ރަސްމީ ވެބްސައިޓަށް މަރުޙަބާ</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        މިއީ އަޅުގަނޑުމެންގެ މުޖުތަމަޢުގެ ކުރިއެރުމަށާއި އިޖުތިމާޢީ ދުޅަހެޔޮކަން އިތުރުކުރުމަށް މަސައްކަތްކުރާ ޖަމްޢިއްޔާއެކެވެ. އެންމެން ގުޅިގެން އުފާވެރި މާދަމާއެއް ބިނާކުރަމާ ހިންގަވާށެވެ.
+                    </p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#about" class="bg-emerald-600 text-white px-6 py-2 rounded shadow hover:bg-emerald-700 transition">އިތުރު މަޢުލޫމާތު</a>
+                        <a href="#members" class="bg-gray-200 text-emerald-800 px-6 py-2 rounded shadow hover:bg-gray-300 transition">ބައިވެރިވުމަށް</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 bg-emerald-100 flex items-center justify-center p-8">
+                    <!-- Placeholder for Hero Image -->
+                    <div class="w-full h-64 bg-emerald-200 rounded-lg border-2 border-dashed border-emerald-400 flex items-center justify-center text-emerald-700 font-semibold">
+                        [ ޖަމްޢިއްޔާގެ ފޮޓޯ ]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="section-container">
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6 border-b-2 border-emerald-200 pb-2">އަހަރެމެންގެ ވާހަކަ</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-emerald-600 mb-2">ތަޞައްވުރު (Vision)</h3>
+                        <p class="text-gray-600">އެންމެނަށް ހަމަހަމަ ފުރުޞަތުތަކެއް ލިބިފައިވާ، ތަޢުލީމީ އަދި ޞިއްޙީ ގޮތުން ކުރިއަރާފައިވާ މުޖުތަމަޢެއް ބިނާކުރުން.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-emerald-600 mb-2">މަޤްޞަދު (Mission)</h3>
+                        <p class="text-gray-600">ޒުވާނުން ބާރުވެރިކުރުވުމާއި، ތިމާވެށި ޙިމާޔަތްކުރުމުގެ އިތުރުން ރަށުގެ ތަރައްޤީއަށް ބޭނުންވާ އެކިއެކި މަސައްކަތްތަކުގައި އިސްނަގައިގެން ޙަރަކާތްތެރިވުން.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MEMBERS SECTION -->
+        <section id="members" class="section-container">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6 px-2">ހިންގާ ކޮމިޓީ (Executive Committee)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Member Card -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-t-4 border-emerald-500">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-800">ނަން</h3>
+                    <p class="text-emerald-600 font-semibold">ރައީސް</p>
+                </div>
+                <!-- Member Card -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-t-4 border-emerald-500">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-800">ނަން</h3>
+                    <p class="text-emerald-600 font-semibold">ނައިބު ރައީސް</p>
+                </div>
+                <!-- Member Card -->
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border-t-4 border-emerald-500">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-800">ނަން</h3>
+                    <p class="text-emerald-600 font-semibold">ސެކްރެޓަރީ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MEDIA SECTION -->
+        <section id="media" class="section-container">
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6 border-b-2 border-emerald-200 pb-2">ފޮޓޯ އަދި އޯޑިއޯ</h2>
+                <p class="text-gray-500">މިތަނުގައި ފަހުން ގޫގުލް ޝީޓުން ޑޭޓާ ގެނެސް ދައްކާނީ.</p>
+            </div>
+        </section>
+
+        <!-- ADMIN SECTION -->
+        <section id="admin" class="section-container">
+            
+            <!-- Login Form -->
+            <div id="login-view" class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8 border-t-4 border-emerald-600">
+                <h2 class="text-2xl font-bold mb-2 text-emerald-800 text-center">އެޑްމިން ލޮގިން</h2>
+                <p class="text-sm text-gray-500 mb-6 text-center">ކޮންޓެންޓް އަޕްލޯޑް ކުރުމަށް ލޮގިން ކުރައްވާ.</p>
+                
+                <input type="text" id="username" placeholder="ޔޫޒަރނޭމް" class="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:border-emerald-500">
+                <input type="password" id="password" placeholder="ޕާސްވޯޑް" class="w-full p-3 border border-gray-300 rounded mb-6 focus:outline-none focus:border-emerald-500">
+                
+                <button onclick="loginAdmin()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded shadow hover:bg-emerald-700 transition">
+                    ލޮގިން (Login)
+                </button>
+                <p id="admin-message" class="text-center mt-4 text-sm font-semibold"></p>
+            </div>
+
+            <!-- Dashboard / Upload Form (Hidden until logged in) -->
+            <div id="dashboard-view" class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8 border-t-4 border-blue-600 hidden">
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">ޑޭޝްބޯޑް (Dashboard)</h2>
+                    <button onclick="logoutAdmin()" class="bg-red-50 text-red-600 px-4 py-2 rounded border border-red-200 hover:bg-red-100 transition text-sm">
+                        ލޮގްއައުޓް (Logout)
+                    </button>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">އޯޑިއޯ އަޕްލޯޑް (Upload Audio)</h3>
+                    
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">ސުރުޚީ (Title)</label>
+                    <input type="text" id="audioTitle" placeholder="އޯޑިއޯގެ ނަން..." class="w-full p-2 border rounded mb-4 focus:outline-none focus:border-blue-400">
+                    
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">ފައިލް (File)</label>
+                    <input type="file" id="audioFile" accept="audio/*" class="w-full p-2 border rounded mb-6 bg-white">
+                    
+                    <button onclick="uploadAudio()" class="w-full bg-blue-600 text-white font-bold py-3 rounded shadow hover:bg-blue-700 transition">
+                        އަޕްލޯޑް ކުރައްވާ (Upload)
+                    </button>
+                    <p id="upload-message" class="text-center mt-4 text-sm font-semibold"></p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
 
     <script>
-        // PASTE YOUR NEW APPS SCRIPT WEB APP URL HERE
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec"; 
+        // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec";
+
+        // --- Routing Logic ---
+        function handleRouting() {
+            const hash = window.location.hash || '#home';
+            
+            // Hide all sections
+            document.querySelectorAll('.section-container').forEach(sec => sec.classList.remove('active-section'));
+            
+            // Show target section
+            const target = document.querySelector(hash);
+            if (target) {
+                target.classList.add('active-section');
+            } else {
+                document.getElementById('home').classList.add('active-section');
+            }
+
+            // Special logic for Admin section routing
+            if(hash === '#admin') {
+                checkAuthStatus();
+            }
+        }
+
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('DOMContentLoaded', handleRouting);
+
+        // --- Auth Logic ---
+        function checkAuthStatus() {
+            const token = localStorage.getItem("admin_token");
+            if (token) {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('dashboard-view').classList.remove('hidden');
+            } else {
+                document.getElementById('login-view').classList.remove('hidden');
+                document.getElementById('dashboard-view').classList.add('hidden');
+            }
+        }
 
         async function loginAdmin() {
             const user = document.getElementById("username").value;
@@ -50,43 +196,53 @@
             const msgEl = document.getElementById("admin-message");
 
             msgEl.innerText = "ޗެކްކުރަނީ... (Checking...)";
-            msgEl.className = "text-center mt-3 text-sm font-semibold text-blue-600";
+            msgEl.className = "text-center mt-4 text-sm font-semibold text-blue-600";
 
             try {
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: "POST",
-                    // text/plain is REQUIRED to prevent CORS preflight errors in Google Apps Script
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8",
-                    },
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ action: "request_login", username: user, password: pass })
                 });
                 
                 const result = await response.json();
 
                 if(result.status === "success") {
-                    // Save token to browser storage for the audio upload step later
                     localStorage.setItem("admin_token", result.token);
-                    
-                    msgEl.innerText = "✅ ލޮގިން ކާމިޔާބުވެއްޖެ!";
-                    msgEl.className = "text-center mt-3 text-sm font-semibold text-emerald-600";
-                    
-                    // You can add code here to hide the login form and show an upload form
+                    msgEl.innerText = "";
+                    checkAuthStatus(); // Switches view to dashboard
                 } else {
                     msgEl.innerText = "❌ ޔޫޒަރނޭމް ނުވަތަ ޕާސްވޯޑް ގޯސް.";
-                    msgEl.className = "text-center mt-3 text-sm font-semibold text-red-600";
+                    msgEl.className = "text-center mt-4 text-sm font-semibold text-red-600";
                 }
             } catch(e) {
-                console.error("Login error:", e);
-                msgEl.innerText = "Error connecting to server. Check console.";
-                msgEl.className = "text-center mt-3 text-sm font-semibold text-red-600";
+                msgEl.innerText = "❌ ކަނެކްޝަން މައްސަލައެއް.";
+                msgEl.className = "text-center mt-4 text-sm font-semibold text-red-600";
             }
         }
-        
-        // Simple router to show/hide admin panel
-        window.addEventListener('hashchange', () => {
-            document.getElementById('admin-section').style.display = location.hash === '#admin' ? 'block' : 'none';
-        });
+
+        function logoutAdmin() {
+            localStorage.removeItem("admin_token");
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            checkAuthStatus(); // Switches view back to login
+        }
+
+        // --- Upload Logic (Placeholder for next step) ---
+        function uploadAudio() {
+            const title = document.getElementById('audioTitle').value;
+            const fileInput = document.getElementById('audioFile');
+            const msgEl = document.getElementById('upload-message');
+
+            if(!title || fileInput.files.length === 0) {
+                msgEl.innerText = "ސުރުޚީ އަދި ފައިލް ހިމަނުއްވާ.";
+                msgEl.className = "text-center mt-4 text-sm font-semibold text-red-600";
+                return;
+            }
+
+            msgEl.innerText = "ތައްޔާރުކުރަނީ... (We will write the Base64 logic next)";
+            msgEl.className = "text-center mt-4 text-sm font-semibold text-blue-600";
+        }
     </script>
 </body>
 </html>
