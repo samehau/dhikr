@@ -3,6 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zikoro | ފުރަތަމަ ޞަފްޙާ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap');
+        body { font-family: 'Anek Malayalam', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-emerald-700 text-white shadow-lg sticky top-0 z-50 relative h-20 flex items-center">
+        <div class="container mx-auto px-4 w-full flex justify-between items-center">
+            
+            <!-- Branding & Oversized Logo -->
+            <div class="flex items-center">
+                <!-- White Logo Circle (Bigger than header, sticking out) -->
+                <div class="absolute right-4 top-2 w-24 h-24 bg-white rounded-full shadow-md border-4 border-gray-100 flex items-center justify-center z-50 overflow-hidden">
+                    <!-- Replace with your actual logo from the Asset folder -->
+                    <img src="Asset/logo.png" alt="Zikoro Logo" class="w-16 h-16 object-contain" onerror="this.style.display='none'">
+                    <!-- Fallback text if image is missing -->
+                    <span class="text-emerald-700 text-xs font-bold text-center absolute -z-10">Logo</span>
+                </div>
+                <!-- Website Title pushed to the left of the logo -->
+                <h1 class="text-3xl font-bold mr-32">ޒިކުރު (Zikoro)</h1>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex space-x-6 space-x-reverse text-lg">
+                <li><a href="index.html" class="text-emerald-200 transition border-b-2 border-emerald-200 pb-1">ފުރަތަމަ ޞަފްޙާ</a></li>
+                <li><a href="nasehai.html" class="hover:text-emerald-200 transition">ނަޞޭޙަތް</a></li>
+                <li><a href="darus.html" class="hover:text-emerald-200 transition">ދަރުސް</a></li>
+                <li><a href="event.html" class="hover:text-emerald-200 transition">އިވެންޓް</a></li>
+                <li><a href="members.html" class="hover:text-emerald-200 transition">މެމްބަރުން</a></li>
+                <li><a href="admin.html" class="hover:text-emerald-200 font-bold bg-emerald-800 px-3 py-1 rounded transition">އެޑްމިން</a></li>
+            </ul>
+        </div>
+
+        <!-- Mobile Menu Dropdown (Hidden by default) -->
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-emerald-800 shadow-xl md:hidden flex flex-col z-40">
+            <a href="index.html" class="p-4 border-b border-emerald-700 text-emerald-200 font-bold">ފުރަތަމަ ޞަފްޙާ</a>
+            <a href="nasehai.html" class="p-4 border-b border-emerald-700 hover:text-emerald-200 transition">ނަޞޭޙަތް</a>
+            <a href="darus.html" class="p-4 border-b border-emerald-700 hover:text-emerald-200 transition">ދަރުސް</a>
+            <a href="event.html" class="p-4 border-b border-emerald-700 hover:text-emerald-200 transition">އިވެންޓް</a>
+            <a href="members.html" class="p-4 border-b border-emerald-700 hover:text-emerald-200 transition">މެމްބަރުން</a>
+            <a href="admin.html" class="p-4 font-bold hover:text-emerald-200 transition text-emerald-300">އެޑްމިން</a>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="container mx-auto mt-12 px-4 pb-12">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row">
+            <div class="p-8 md:w-1/2 flex flex-col justify-center">
+                <h2 class="text-4xl font-bold text-emerald-800 mb-4">ޒިކުރު ވެބްސައިޓަށް މަރުޙަބާ</h2>
+                <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                    މިއީ އަޅުގަނޑުމެންގެ މުޖުތަމަޢުގެ ކުރިއެރުމަށާއި އިޖުތިމާޢީ ދުޅަހެޔޮކަން އިތުރުކުރުމަށް މަސައްކަތްކުރާ ޖަމްޢިއްޔާއެކެވެ.
+                </p>
+            </div>
+            <div class="md:w-1/2 p-4 flex items-center justify-center bg-emerald-50">
+                <!-- Ensure you upload hero-image.jpg to your Asset folder -->
+                <img src="Asset/hero-image.jpg" alt="ޒިކުރު" class="w-full h-auto rounded-xl shadow-lg object-cover max-h-80" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="dv" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NGO Website | ޖަމްޢިއްޔާ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
