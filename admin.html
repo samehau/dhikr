@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="dv" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Website | އެޑްމިން</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap');
+        body { font-family: 'Anek Malayalam', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold mb-4 md:mb-0">އެން.ޖީ.އޯ ވެބްސައިޓް</h1>
+            <ul class="flex flex-wrap justify-center space-x-4 space-x-reverse text-lg">
+                <li><a href="index.html" class="hover:text-emerald-200 transition">ފުރަތަމަ ޞަފްޙާ</a></li>
+                <li><a href="nasehai.html" class="hover:text-emerald-200 transition">ނަޞޭޙަތް</a></li>
+                <li><a href="darus.html" class="hover:text-emerald-200 transition">ދަރުސް</a></li>
+                <li><a href="event.html" class="hover:text-emerald-200 transition">އިވެންޓް</a></li>
+                <li><a href="members.html" class="hover:text-emerald-200 transition">މެމްބަރުން</a></li>
+                <li><a href="admin.html" class="text-emerald-200 font-bold bg-emerald-800 px-3 py-1 rounded transition">އެޑްމިން</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container mx-auto mt-8 px-4 pb-12">
+        <!-- Login Form -->
+        <div id="login-view" class="max-w-md mx-auto bg-white rounded-xl shadow-md p-8 border-t-4 border-emerald-600">
+            <h2 class="text-2xl font-bold mb-2 text-emerald-800 text-center">އެޑްމިން ލޮގިން</h2>
+            <input type="text" id="username" placeholder="ޔޫޒަރނޭމް" class="w-full p-3 border border-gray-300 rounded mb-4">
+            <input type="password" id="password" placeholder="ޕާސްވޯޑް" class="w-full p-3 border border-gray-300 rounded mb-6">
+            <button onclick="loginAdmin()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded shadow">ލޮގިން</button>
+            <p id="admin-message" class="text-center mt-4 text-sm font-semibold"></p>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard-view" class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8 border-t-4 border-blue-600 hidden">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h2 class="text-2xl font-bold text-gray-800">ޑޭޝްބޯޑް</h2>
+                <button onclick="logoutAdmin()" class="bg-red-50 text-red-600 px-4 py-2 rounded">ލޮގްއައުޓް</button>
+            </div>
+            <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                <h3 class="text-xl font-bold text-blue-800 mb-4">އޯޑިއޯ އަޕްލޯޑް (Upload Darus)</h3>
+                <input type="text" id="audioTitle" placeholder="ދަރުސްގެ ނަން..." class="w-full p-2 border rounded mb-4">
+                <input type="file" id="audioFile" accept="audio/*" class="w-full p-2 border rounded mb-6 bg-white">
+                <button onclick="uploadAudio()" class="w-full bg-blue-600 text-white font-bold py-3 rounded shadow">އަޕްލޯޑް ކުރައްވާ</button>
+                <p id="upload-message" class="text-center mt-4 text-sm font-semibold"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem("admin_token");
+            if (token) {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('dashboard-view').classList.remove('hidden');
+            }
+        });
+
+        async function loginAdmin() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+            const msgEl = document.getElementById("admin-message");
+            msgEl.innerText = "ޗެކްކުރަނީ... (Checking...)";
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ action: "request_login", username: user, password: pass })
+                });
+                
+                const result = await response.json();
+                if(result.status === "success") {
+                    localStorage.setItem("admin_token", result.token);
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('dashboard-view').classList.remove('hidden');
+                } else {
+                    msgEl.innerText = "❌ ގޯސް.";
+                }
+            } catch(e) {
+                msgEl.innerText = "❌ ކަނެކްޝަން މައްސަލައެއް.";
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem("admin_token");
+            location.reload();
+        }
+
+        function uploadAudio() {
+            const title = document.getElementById('audioTitle').value;
+            const fileInput = document.getElementById('audioFile');
+            const msgEl = document.getElementById('upload-message');
+            if(!title || fileInput.files.length === 0) return msgEl.innerText = "ސުރުޚީ އަދި ފައިލް ހިމަނުއްވާ.";
+            msgEl.innerText = "ތައްޔާރުކުރަނީ... (Base64 conversion coming next)";
+        }
+    </script>
+</body>
+</html>
