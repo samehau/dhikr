@@ -145,11 +145,16 @@
         // REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHjyMV1gjysVy4gsNRd8PRnxnAOYOO8J_Vl6vVswDHjQ5RD_-79dCMvlvKlJypJdlB/exec";
 
-        function getDriveDirectLink(url) {
-            if (!url) return '';
-            const match = url.match(/\/d\/(.+?)\//);
-            return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : url;
-        }
+       // NEW FUNCTION - Bypasses Google Drive embed restrictions
+function getDriveDirectLink(url) {
+    if (!url) return '';
+    const match = url.match(/\/d\/(.+?)\//);
+    if (match) {
+        // Uses the thumbnail endpoint which is allowed to display on external websites
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+    }
+    return url;
+}
 
         async function loadWebsiteData() {
             try {
