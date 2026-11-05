@@ -149,14 +149,17 @@
 
         items.forEach(item => {
             const imgUrl = getDriveDirectLink(item["Image URL"]);
+            // Pass the timestamp as a unique ID in the URL
+            const detailUrl = `nasehai-detail.html?id=${encodeURIComponent(item.Timestamp)}`;
+            
             container.innerHTML += `
-            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center fade-in">
+            <a href="${detailUrl}" class="block bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center fade-in hover:shadow-md transition cursor-pointer">
                 <div class="w-full bg-gray-200 aspect-video rounded-lg flex items-center justify-center mb-4 overflow-hidden relative">
                     ${imgUrl ? `<img src="${imgUrl}" loading="lazy" class="absolute w-full h-full object-cover transition-transform duration-500 hover:scale-105">` : '<span class="text-gray-400 text-xl font-bold">No Photo</span>'}
                 </div>
                 <h3 class="text-xl font-bold text-[#0f764a] mb-2">${item.Title}</h3>
-                <p class="text-gray-600 font-semibold text-sm">${item.Detail}</p>
-            </div>`;
+                <p class="text-gray-600 font-semibold text-sm line-clamp-2">${item.Detail}</p>
+            </a>`;
         });
     }
 
